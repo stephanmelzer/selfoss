@@ -86,6 +86,7 @@ if($f3->get('auth')->isLoggedin()===true || \F3::get('public')==1) {
 if($f3->get('auth')->isLoggedin()===true) {
     $f3->route('POST /mark/@item',          'controllers\Items->mark');           // json
     $f3->route('POST /mark',                'controllers\Items->mark');           // json
+    $f3->route('POST /markAll',             'controllers\Items->markAll');        // json
     $f3->route('POST /unmark/@item',        'controllers\Items->unmark');         // json
     $f3->route('POST /starr/@item',         'controllers\Items->starr');          // json
     $f3->route('POST /unstarr/@item',       'controllers\Items->unstarr');        // json

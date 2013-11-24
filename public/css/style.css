@@ -84,6 +84,27 @@ input {
             color:#000000;
         }
     
+    #nav-mark-all {
+        padding:10px;
+        margin-left:15px;
+        margin-right:15px;
+        margin-top:5px;
+        color:#d7d7d7;
+        background:#3d6d69;
+        font-weight:600;
+        font-size:0.9em;
+        text-align:center;
+        -moz-border-radius:2px;
+        -webkit-border-radius:2px;
+        -khtml-border-radius:2px;
+        border-radius:2px;
+        cursor:pointer; 
+    }
+
+    #nav-mark-all:hover {
+            color:#000000;
+        }
+    
     #nav-filter {
         margin-top:20px;
         margin-bottom:30px;

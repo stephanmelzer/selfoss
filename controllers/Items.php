@@ -50,7 +50,22 @@ class Items extends BaseController {
         
         $this->view->jsonSuccess($return);
     }
-    
+
+    /**
+    * mark all items as read
+    * json
+    *
+    * @return void
+    */
+    public function markAll(){
+        $itemsDao = new \daos\Items();
+        $itemsDao->markAll($_POST); 
+        
+        $return = array(
+            'success' => true
+        );
+        $this->view->jsonSuccess($return);
+    }    
     
     /**
      * mark item as unread

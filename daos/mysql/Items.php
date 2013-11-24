@@ -38,7 +38,65 @@ class Items extends Database {
         \F3::get('db')->exec('UPDATE '.\F3::get('db_prefix').'items SET unread=0 WHERE id IN (' . $id . ')');
     }
     
-    
+    /**
+    * mark all items as read in the given options
+    *
+    * @return void
+    * @param mixed $options search and filter params
+    */
+    public function markAll($options){
+        $params = array();
+        $whereConditions = array();
+        $where = '';
+
+        if (isset($options['type'])) {
+            // starred
+            if($options['type'] == 'starred'){
+                $whereConditions[] = 'starred = 1';
+            }
+                
+            // unread
+            else if($options['type'] == 'unread'){
+                $whereConditions[] = 'unread = 1';
+            }
+        }
+
+        // search
+        if(isset($options['search']) && strlen($options['search']) > 0) {
+            $search = str_replace(" ", "%", trim($options['search']));
+            $params[':search'] = $params[':search2'] = $params[':search3'] = array("%".$search."%", \PDO::PARAM_STR);
+            $whereConditions[] = '(items.title LIKE :search OR items.content LIKE :search2 OR sources.title LIKE :search3)';
+        }
+
+        // source
+        if (isset($options['source']) && strlen($options['source']) > 0) {
+            $whereConditions[] = 'sources.id='.$options['source'];
+        }
+        
+        // tag filter
+        else if(isset($options['tag']) && strlen($options['tag']) > 0) {
+            $params[':tag'] = array( "%,".$options['tag'].",%" , \PDO::PARAM_STR );
+            if ( \F3::get( 'db_type' ) == 'mysql' ) {
+              $whereConditions[] = "( CONCAT( ',' , sources.tags , ',' ) LIKE :tag )";
+            } else {
+              $whereConditions[] = "( (',' || sources.tags || ',') LIKE :tag )";
+            }
+        }
+
+        // create where condition for SQL query
+        if (sizeof($whereConditions) > 0) {
+            $where = ' WHERE '.implode(' AND ', $whereConditions);
+        }
+
+        $sqlQuery = 'UPDATE '.\F3::get('db_prefix').'items AS items'
+                    .' INNER JOIN '.\F3::get('db_prefix').'sources as sources ON items.source = sources.id'
+                    .' SET unread = 0'
+                    .$where;
+
+        \F3::get('db')->exec($sqlQuery, $params);
+        \F3::get('logger')->log('F3 profiler log for mark all items as read:' .PHP_EOL. \F3::get('db')->log(), \DEBUG);
+    }
+
     /**
      * mark item as unread
      *

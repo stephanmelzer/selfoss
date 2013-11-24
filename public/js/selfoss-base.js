@@ -159,9 +159,13 @@ var selfoss = {
                 selfoss.events.entries();
                 selfoss.events.search();
                 
-                // make unread itemcount red
-                if(data.unread>0)
+                // if unread items are available,
+                // make the item count red
+                if(data.unread > 0) {
                     $('.nav-filter-unread span').addClass('unread');
+                } else {
+                    $('.nav-filter-unread span').removeClass('unread');
+                }
                 
                 // update tags
                 selfoss.refreshTags(data.tags);
