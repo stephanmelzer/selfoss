@@ -12,3 +12,5 @@ user.css
 /_docs/website/forum
 config.ini
 .project
+*sublime-project
+*sublime-workspace
