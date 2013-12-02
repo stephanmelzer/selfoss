@@ -96,7 +96,7 @@ selfoss.events = {
         if(selfoss.isSmartphone()==false) {
             var start = $('#nav-tags-wrapper').position().top;
             var windowHeight = $(window).height();
-            $('#nav-tags-wrapper').height(windowHeight - start - 100);
+            $('#nav-tags-wrapper').height(windowHeight - start - 150);
             $("#nav-tags-wrapper").mCustomScrollbar("update");
             $('#nav').show();
         } else {
